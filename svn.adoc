@@ -1,0 +1,40 @@
+=== 测试服务器
+|===
+|服务器名称 |IP |用户名,密码
+
+|Web+Redis
+|196.168.1.31
+|root,123
+
+|Svn+Elasticsearch+Jenkin
+|196.168.1.32
+|root,123
+
+|===
+
+`WEB` ::
+http://196.168.1.31
+`Bugzilla` ::
+http://196.168.1.31:8080/bugzilla
+
+`SVN` ::
+svn://196.168.1.32/project/branches/dev (开发分支) +
+svn://196.168.1.32/project/b2b (主干)
+
+`Jenkins` ::
+http://196.168.1.32:8080
+
+=== Eclipse svn 仓库地址更换
+
+* 第一步
+[[/src/img/svn/2016-05-20_091213.png]]
+
+* 第二步
+[[/src/img/svn/2016-05-20_091325.png]]
+
+* 第三步
+[[/src/img/svn/2016-05-20_091353.png]]
+
+* 第四步
+[[/src/img/svn/2016-05-20_091506.png]]
+

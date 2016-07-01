@@ -1,0 +1,82 @@
+:icons: font
+== Mai沥青
+
+=== 正式服务器详情
+|===
+|服务器名称 |IP |类型
+
+|Mlq-Web-Zhengshi
+|192.168.1.128(内),116.90.81.70(外)
+|LVS+Keepalive
+
+|Mlq-Web-R2
+|`192.168.1.125`
+|Nginx+Web
+
+|Mlq-Web-R1
+|192.168.1.124
+|Nginx+Web
+
+|Mlq-Data
+|192.168.1.126
+|图片+索引
+
+|Mlq-Sql-Master
+|192.168.1.127
+|数据库+缓存(redis)
+|===
+
+=== 启动步骤
+
+. 启动数据库,缓存
+```bash
+ssh 192.168.1.127
+password: jinzhaoluhua
+#数据库
+service mysqld start
+#redis
+cd /root/opt/redis
+./redis-server
+```
+. 启动图片服务(nfs),索引(es)
+```shell
+ssh Mlq-Data
+# 图片服务(nfs)
+service nfs restart
+# 索引(es)
+opt/elasticsearch-1.7.1/bin/elasticsearch -Xmx2g -Xms2g -d
+```
+. 启动Web
+```bash
+ssh Mlq-Web-R2
+
+supervisorctl restart tomcat
+#如果没有图片
+mount -t nfs -o rsize=8192,wsize=8192 192.168.1.126:/usr/mailiqing/data /usr/tomcat/apache-tomcat-7.0.62/webapps/b2b/data
+```
+**ps**: 如果不能访问 关闭防火墙 `service iptables stop`
+
+
+
+== 216测试服务器
+
+[IMPORTANT]
+====
+|===
+|服务器名称 |IP |用户名,密码
+
+|216
+|196.168.1.216
+|root,123
+
+|===
+. 访问地址 +
+`196.168.1.216`
+. 使用数据库 +
+`mailiqing`
+. 关闭 `tomcat` +
+`supervisorctl stop tomcat`
+. 重启 `tomcat` +
+`supervisorctl restart tomcat`
+====
+
